@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 
 @Controller('post')
 export class PostController {
