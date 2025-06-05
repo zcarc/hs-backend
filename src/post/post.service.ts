@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { prismaClient } from '../client';
 import { Prisma } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class PostService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   create(postCreateInput: Prisma.PostCreateInput) {
-    return prismaClient.post.create({
+    return this.prismaService.post.create({
       data: postCreateInput,
     });
   }
 
   findAll() {
-    return prismaClient.post.findMany();
+    return this.prismaService.post.findMany();
   }
 
   findOne(id: number) {
-    return prismaClient.post.findUnique({
+    return this.prismaService.post.findUnique({
       where: {
         id,
       },
@@ -23,7 +25,7 @@ export class PostService {
   }
 
   update(id: number, postUpdateInput: Prisma.PostUpdateInput) {
-    return prismaClient.user.update({
+    return this.prismaService.post.update({
       where: {
         id,
       },
@@ -32,7 +34,7 @@ export class PostService {
   }
 
   remove(id: number) {
-    return prismaClient.post.delete({
+    return this.prismaService.post.delete({
       where: {
         id,
       },

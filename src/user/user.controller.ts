@@ -6,9 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Prisma } from '@prisma/client';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import { JwtStrategyResponse } from '../auth/types/auth.types';
 
 @Controller('user')
 export class UserController {
@@ -22,6 +26,15 @@ export class UserController {
   @Get()
   findAll() {
     return this.userService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/profile')
+  findProfile(@Request() req: JwtStrategyResponse) {
+    // validate()에서 반환된 객체가 req에 들어 있음
+    return {
+      userId: req.user.userId,
+    };
   }
 
   @Get(':id')
